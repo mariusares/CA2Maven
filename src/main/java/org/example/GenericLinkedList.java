@@ -1,15 +1,17 @@
 package org.example;
 import java.util.*;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+
 
 public class GenericLinkedList<T> implements IList<T> {
     class Node{
         T val;
         Node next;
+        private T t;
         Node(T val){
             this.val = val;
         }
+
     }
 
     Node head;
@@ -27,11 +29,6 @@ public class GenericLinkedList<T> implements IList<T> {
     }
 
        public void addToStart(T val){
-        if(isEmpty()){
-            head = new Node( val );
-            tail = head;
-            nrOfElements = 0;
-             }
         Node newNode = new Node(val);
         newNode.next = head;
         head = newNode;
@@ -42,7 +39,7 @@ public class GenericLinkedList<T> implements IList<T> {
         if (isEmpty()){
             head = new Node( val );
             tail = head;
-            nrOfElements = 0;
+
         }
         Node newNode = new Node( val );
         tail.next = newNode;
@@ -66,22 +63,27 @@ public class GenericLinkedList<T> implements IList<T> {
     }
     @Override
     public void add(int index, T element) {
-       if (index < 0 || index > size()){
-            throw new IndexOutOfBoundsException("Index out of bounds");
+        Node newNode = new Node(element);
+        if (index < 0 || index > size()) {
+           System.out.println( size() );
+           throw new IndexOutOfBoundsException( "Index out of bounds" );
         }
-   if (index == 0){
-       addToStart( element );
+        if (index == 0 ){
+            addToStart( element );
+            return;
 
-   }
-   Node current = head;
-   int count = 1;
-   while (count < index-1){ //tested with index-1
-       count++;
-       current = current.next;
-   }
-   Node newNode = new Node(element);
-   newNode.next = current.next.next;
-   current.next = newNode;
+        }
+        Node current = head;
+        int count = 1;
+        while (count < index-1){
+            count++;
+            current = current.next;
+           // nrOfElements++;
+        }
+      //  Node newNode = new Node(element);
+        newNode.next = current.next;
+        current.next = newNode;
+        nrOfElements++;
     }
     @Override
     public int size(){
@@ -165,15 +167,14 @@ public class GenericLinkedList<T> implements IList<T> {
 
     @Override
     public boolean contains(T element) {
-       Node current = head;
-        if (current != null){
+        Node current = head;
+        if (current != null) {
             if (head.val == element)
-            current = head.next;
-            return true;
-        }
-        return false;
+                return true;
+                current = head.next;
+                   }
+            return false;
     }
-
     @Override
     public Iterator<T> iterator() {
 
@@ -203,5 +204,25 @@ public class GenericLinkedList<T> implements IList<T> {
         };
 
     }
+
+     /*
+    public Iterator<T> iterator(){
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T>{
+        Node curr = head;
+
+        public boolean hasNext(){
+            return curr != null;
+        }
+        public T next(){
+            T element = curr.t;
+            curr = curr.next;
+            return element;
+        }
+    }
+
+     */
 }
 

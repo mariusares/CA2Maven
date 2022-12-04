@@ -8,22 +8,8 @@ class GenericStackTest {
 
     @Test
     void pushOneStringToTheSTack_returnTheStringOnTheStack() {
-        stack.push("first");
-        assertEquals("first", stack.peek());
+        stack.push( "first" );
+        assertEquals( "first", stack.peek() );
         stack.pop();
-         }
-
-
-    @Test
-    void pop() {
-    }
-
-    @Test
-    void peek() {
-    }
-
-    @Test
-    void checkIfStackIsEmpty_expectedResultTrue() {
-        assertEquals(true, stack.empty());
     }
 }

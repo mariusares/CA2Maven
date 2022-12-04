@@ -21,6 +21,9 @@ public class GenericArrayList<T> implements IList<T> {
     @Override
     public void add(int index, T element)
     {
+        if(index < 0 || index > size()){
+            throw new IndexOutOfBoundsException("Index out of bounds: ");
+        }
         if (index <= nextFreeLoc)
         {
                 for (int i = nextFreeLoc; i > index; i--) {
@@ -48,12 +51,14 @@ public class GenericArrayList<T> implements IList<T> {
     }
     @Override
     public int size(){
-
         return buffer.length;
     }
 
     @Override
     public T remove(int index) {
+        if(index < 0 || index > size()){
+            throw new IndexOutOfBoundsException("Index for removal not exist: ");
+        }
         if (index <= nextFreeLoc) {
             for (int i = index; i < nextFreeLoc; i++) {
                 buffer[i] = buffer[i + 1];
@@ -102,10 +107,25 @@ public class GenericArrayList<T> implements IList<T> {
     }
          @Override
     public Iterator<T> iterator() {
-        return null;
+             return new MyArrayListIterator<>();
     }
 
+    private class MyArrayListIterator<T> implements Iterator<T> {
+        private int currentIndex = 0;
 
+        @Override
+        public boolean hasNext() {
+            // Since this is a inner class, we have access to the
+            // "list" field defined by MyArrayList.
+            return currentIndex < buffer.length;
+        }
+
+        @Override
+        public T next() {
+
+            return (T) buffer[currentIndex++];
+        }
+    }
 
 
     @Override
